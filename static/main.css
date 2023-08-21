@@ -1,0 +1,228 @@
+/* Importing fonts from Google */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+/* Reseting */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #ecf0f3;
+}
+
+.wrapper {
+    max-width: 350px;
+    min-height: 500px;
+    margin: 80px auto;
+    padding: 40px 30px 30px 30px;
+    background-color: #ecf0f3;
+    border-radius: 15px;
+}
+
+.logo {
+    width: 80px;
+    margin: auto;
+}
+
+.logo img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0px 0px 3px #5f5f5f,
+        0px 0px 0px 5px #ecf0f3,
+        8px 8px 15px #a7aaa7,
+        -8px -8px 15px #fff;
+}
+
+.wrapper .name {
+    font-weight: 600;
+    font-size: 1.4rem;
+    letter-spacing: 1.3px;
+    padding-left: 10px;
+    color: #555;
+}
+
+.wrapper .form-field input {
+    width: 100%;
+    display: block;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.2rem;
+    color: #666;
+    padding: 10px 15px 10px 10px;
+    /* border: 1px solid red; */
+}
+
+.wrapper .form-field {
+    padding-left: 10px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+}
+
+.wrapper .form-field .fas {
+    color: #555;
+}
+
+.wrapper .btn {
+    box-shadow: none;
+    width: 100%;
+    height: 40px;
+    background-color: #03A9F4;
+    color: #fff;
+    border-radius: 25px;
+    box-shadow: 3px 3px 3px #b1b1b1,
+        -3px -3px 3px #fff;
+    letter-spacing: 1.3px;
+}
+
+.wrapper .btn:hover {
+    background-color: #039BE5;
+}
+
+.wrapper a {
+    text-decoration: none;
+    font-size: 0.8rem;
+    color: #03A9F4;
+}
+
+.wrapper a:hover {
+    color: #039BE5;
+}
+
+@media(max-width: 380px) {
+    .wrapper {
+        margin: 30px 20px;
+        padding: 40px 15px 15px 15px;
+    }
+}
+
+  /*Text*/
+  .title {
+    position: absolute;
+    bottom: 1rem;
+    transition: transform .25s ease-out;
+  }
+  
+  /*Button*/
+  .button {
+    padding: 8px;
+    background-color: #5bc0eb;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #53aed4;
+  }
+  
+  .search{
+    position: relative;
+    box-shadow: 0 0 40px rgba(51, 51, 51, .1);
+      
+    }
+
+    .search input{
+
+     height: 60px;
+     text-indent: 25px;
+     border: 2px solid #d6d4d4;
+
+
+    }
+
+
+    .search input:focus{
+
+     box-shadow: none;
+     border: 2px solid blue;
+
+
+    }
+
+    .search .fa-search{
+
+     position: absolute;
+     top: 20px;
+     left: 16px;
+
+    }
+
+    .search button{
+
+     position: absolute;
+     top: 5px;
+     right: 5px;
+     height: 50px;
+     width: 110px;
+     background: blue;
+
+    }
+
+
+    img{
+      height:150px;
+      width:100%;
+    }
+    
+    div [class^="col-"]{
+      padding-left:5px;
+      padding-right:5px;
+    }
+    .card{
+      transition:0.5s;
+      cursor:pointer;
+    }
+    .card-title{  
+      font-size:15px;
+      transition:1s;
+      cursor:pointer;
+    }
+    .card-title i{  
+      font-size:15px;
+      transition:1s;
+      cursor:pointer;
+      color:#ffa710
+    }
+    .card-title i:hover{
+      transform: scale(1.25) rotate(100deg); 
+      color:#18d4ca;
+      
+    }
+    .card:hover{
+      transform: scale(1.05);
+      box-shadow: 10px 10px 15px rgba(0,0,0,0.3);
+    }
+    .card-text{
+      height:80px;  
+    }
+    
+    .card::before, .card::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transform: scale3d(0, 0, 1);
+      transition: transform .3s ease-out 0s;
+      background: rgba(255, 255, 255, 0.1);
+      content: '';
+      pointer-events: none;
+    }
+    .card::before {
+      transform-origin: left top;
+    }
+    .card::after {
+      transform-origin: right bottom;
+    }
+    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+      transform: scale3d(1, 1, 1);
+    }
+
+    #ex1Slider .slider-selection {
+      background: #BABABA;
+    }

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- input the main.css file -->
+	<link rel="stylesheet" href="../static/main.css">
+	<!-- use bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<title>Login</title>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark bg-primary justify-content-center">
+		<a class="navbar-brand abs" href="#">Jarvis, The Password Manager</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="navbar-collapse collapse" id="collapsingNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="//codeply.com">Github</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="//codeply.com">Security Documentation</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+    <div style="width: 75%; margin: auto; margin-top: 10px;">
+
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+
+        <form action="/edit" method="POST" class="form-signin">
+            <h1 class="h3 mb-3 font-weight-normal">Edit Account</h1>
+            <label for="inputAccount">Account</label>
+            <input type="text" id="inputAccount" name="account" class="form-control" placeholder="Name" value="{{form_data.name}}">
+            <label for="inputUsername" class="mt-3">Username</label>
+            <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username" value="{{form_data.username}}" autofocus>
+            <label for="inputPassword" class="mt-3">Password</label>
+            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" value="{{form_data.password}}">
+
+			<!-- Create slider to choose value between 8 and 64. Log it to console -->
+			<!-- chage width of slider to occupy 50% of screen -->
+			<div class="slidecontainer" style="padding:5px;">
+				<!-- slider and checkboxes are in diferent rows -->
+				<div class="row">
+					<label for="inputPasswordLength" class="sr-only">Password Length</label>
+					<input type="range" min="8" max="64" value="16" class="slider" id="inputPasswordLength" name="passwordLength" style="width: 50%; position: absolute; left: 25%; padding: 10px; padding-bottom: 10px;">
+				</div>
+				<!-- Include checkboxes for lowercase, uppercase, numbers, symbols -->
+				<div class="row" style="padding: 50px;">
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" id="inputUppercase" name="uppercase" style="padding:5px;" checked>
+						<label class="form-check-label" for="inputUppercase" style="padding:5px;">Uppercase</label>
+						<input class="form-check-input" type="checkbox" id="inputNumbers" name="numbers" style="padding:5px;" checked>
+						<label class="form-check-label" for="inputNumbers" style="padding:5px;">Numbers</label>
+						<input class="form-check-input" type="checkbox" id="inputSymbols" name="symbols" style="padding:5px;" checked>
+						<label class="form-check-label" for="inputSymbols" style="padding:5px;">Symbols</label>
+					</div>
+				</div>
+			</div>
+
+            <!-- center the button on the screen -->
+			<div style="text-align: center; padding: 5px;">
+				<div class="row" style="text-align: center; padding: 5px;">
+					<div style="text-align: center; padding: 5px;position:absolute; left:40%">
+						<button class="btn btn-lg btn-primary" type="submit" name="cancel_button" value="cancel">Cancel</button>
+					</div>
+					<div style="text-align: center; padding: 5px;position:absolute; left:50%">
+						<button class="btn btn-lg btn-primary" type="submit" name="save_button" value="{{form_data.name}}">Save</button>
+					</div>
+				</div>
+			</div>
+        </form>
+    </div>
+
+	<script>
+		var slider = document.getElementById("inputPasswordLength");
+		var uppercase = document.getElementById("inputUppercase");
+		var numbers = document.getElementById("inputNumbers");
+		var symbols = document.getElementById("inputSymbols");
+
+		function includesUppercase(){
+			return uppercase.checked;
+		}
+
+		function includesNumbers(){
+			return numbers.checked;
+		}
+
+		function includesSymbols(){
+			return symbols.checked;
+		}
+		
+		slider.oninput = function() {
+			fetch('http://127.0.0.1:5000/generatepassword?length='+this.value+'&uppercase='+includesUppercase()+'&digits='+includesNumbers()+'&symbols='+includesSymbols())
+				.then((response) => {
+					return response.json();
+			})
+				.then((myJson) => {
+					document.getElementById("inputPassword").value = myJson.password;
+					console.log(myJson.password);
+				});
+		}
+		
+	</script>
+	
+	<nav class="navbar fixed-bottom navbar-light bg-light">
+		<a class="navbar-brand" href="#">© CZ4010: Applied Cryptography Group 45</a>
+	</nav>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- input the main.css file -->
+	<link rel="stylesheet" href="../static/main.css">
+	<!-- use bootstrap -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<title>Passwords</title>
+</head>
+<body style="background-color: #e8e8e8;">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary justify-content-between">
+        <nav class="navbar navbar-expand-md navbar-dark bg-primary justify-content-center">
+            <a class="navbar-brand abs" href="#">Jarvis, The Password Manager</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="collapsingNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="//codeply.com">Github</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="//codeply.com">Security Documentation</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <form  action="/addaccount" method="POST">
+            <button class="btn btn-primary">+Add Account</button>
+        </form>
+        
+    </nav>
+
+    <div class="container" style="padding: 5px">
+        <div class="row height d-flex justify-content-center align-items-center">
+            <div class="col-md-8">
+                <div class="search">
+                    <form method="POST">
+                        <i class="fa fa-search"></i>
+                        <input type="text" name = "searchAccount" class="form-control" id="searchBar" placeholder="Filter passwords by account name">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="container mt-2" id="listaccounts"></div>
+    <script>
+        // on loading the webpage, create a list of cards using the form_data list
+        // create cards for each account and each row has 4 cards,
+        // create a new row when the number of cards in the row is 4
+        searchBar = document.getElementById("searchBar");
+        var form_data_js = JSON.parse('{{form_data|tojson|safe}}');
+        console.log(form_data_js);
+        var listaccounts = document.getElementById("listaccounts");
+        display(form_data_js);
+        searchBar.oninput = function() {
+            var search = searchBar.value;
+            if(search === ''){
+                display(form_data_js);
+            } else {
+                console.log(search);
+                arr = [];
+                for (var i = 0; i < form_data_js.length; i++) {
+                    if (form_data_js[i].name.includes(search)) {
+                        arr.push(form_data_js[i]);
+                    }
+                }
+                // call the search function with arr
+                display(arr);
+            }
+        }
+
+        function display(arr){
+            listaccounts.innerHTML = "";
+            var row = null
+            console.log("search is false")
+            
+            for(var i = 0 ; i < arr.length ; i++){
+                if(i % 4 == 0){
+                    row = document.createElement("div");
+                    row.className = "row";
+                    row.style = "padding: 5px";
+                    listaccounts.appendChild(row);
+                }
+                
+                var card = document.createElement("div");
+                card.className = "col-md-3 col-sm-6";
+                card.innerHTML = `
+                <div class="card card-block" style="padding: 5px">
+                    <div style="display:flex; justify-content: space-between;">
+                        <div class="card-title" style="padding: 2px;">
+                            <form method="POST">
+                                <button style="border: white; background-color: transparent;" name="delete_button" value="`+arr[i]['name']+`">
+                                    <i class="fa fa-trash-o" aria-hidden="true" style="color: red;" data-toggle="modal"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="card-title" style="padding: 2px;">
+                            <form action="/editAccount" method="POST">
+                                <button style="border: white; background-color: transparent;" name="edit_button" value="`+arr[i]['name']+`">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <h1 style="text-align: center;">` + arr[i]['name'] + `</h1>
+                    <h5 class="card-title mt-3 mb-3"><i class="fa fa-user-circle-o aria-hidden="true"></i> ` + arr[i]['username'] + `</h5>
+                    <form method="POST">
+                        <button class="btn btn-primary" name="passwordcopy" onclick="console.log("clicked");" value="`+ arr[i]['password'] +`">
+                            <i class="fa fa-clone" aria-hidden="true"></i>    
+                        </button>
+                    </form>
+                </div>
+                `;
+                row.appendChild(card);
+            }
+        }
+
+    </script>
+
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+		<a class="navbar-brand" href="#">© CZ4010: Applied Cryptography Group 45</a>
+	</nav>
+</body>
+</html>
